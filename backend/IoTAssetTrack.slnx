@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="IoTAssetTrack.Api/IoTAssetTrack.Api.csproj" />
+  <Project Path="IoTAssetTrack.Application/IoTAssetTrack.Application.csproj" />
+  <Project Path="IoTAssetTrack.Domain/IoTAssetTrack.Domain.csproj" />
+  <Project Path="IoTAssetTrack.Infrastructure/IoTAssetTrack.Infrastructure.csproj" />
+</Solution>
