@@ -34,6 +34,18 @@ DigiMatterIoTAssetTrack-Monitoring/
 │   ├── images
 │   └──
 ├── frontend/
+│    ├── index.html                 ✓ Dashboard landing page with feature cards
+│    ├── devices.html               ✓ Device management (table + map views)
+│    ├── groups.html                ✓ Hierarchical group management
+│    └── firmware.html              ✓ Firmware version tracking
+├── css/
+│   └── styles.css             ✓ Complete responsive design system
+└── js/
+    ├── api.js                 ✓ API utilities, formatters, helpers
+    ├── layout.js              ✓ Sidebar navigation, page shell
+    ├── devices.js             ✓ Device management logic 
+    ├── groups.js              ✓ Group management logic 
+    └── firmware.js            ✓ Firmware management logic 
 ```
 
 ## Getting Started
@@ -82,6 +94,7 @@ The backend follows a clean  architecture:
 3. Infrastructure Layer — EF Core and Dapper repositories execute database operations
 4. Domain Layer — Entity models representing the database schema
 
+![Architecture](docs/images/IoTAssetTrack_Architecture.png)
 
 ## Database Schema
 
@@ -91,6 +104,79 @@ The backend follows a clean  architecture:
 | `Firmware` | Versioned firmware per device type |
 | `DeviceGroup` | Hierarchical groups (self-referencing) |
 | `Device` | Individual IoT devices with location and firmware assignment |
+
+### Entity Relationship Diagram
+
+![Database Schema](docs/images/database-schema.png)
+
+
+### Prerequisites
+
+- .NET SDK
+- SQL Server
+- Visual Studio 2022
+
+### Steps
+
+1. Run `01_CreateDatabase.sql`
+2. Run `02_CreateTables.sql`
+3. Run `03_SeedData.sql`
+4. Update the SQL Server connection string
+5. Run the application
+
+## Features
+
+### Device Management
+
+- Create, update and view devices
+- Assign firmware
+- Assign groups
+- Device location management
+- Active/inactive status
+- Map visualisation using Leaflet
+
+### Firmware Management
+
+- Create firmware versions
+- Update firmware
+- Filter by device type
+- Prevent duplicate firmware versions
+
+### Group Management
+
+- Hierarchical parent/child groups
+- Recursive tree view
+- Assign devices to groups
+- Parent group validation
+
+The frontend consists of four primary pages.
+
+| Page | Purpose |
+|------|---------|
+| Dashboard | Overview and navigation |
+| Devices | Manage IoT devices and map |
+| Groups | Manage hierarchical groups |
+| Firmware | Manage firmware versions |
+
+
+## Assumptions
+
+- A device belongs to one firmware version.
+- Firmware belongs to a single device type.
+- Groups support unlimited nesting.
+- Devices may optionally belong to a group.
+
+## Future Improvements
+
+- Unit tests
+- Soft deletes(Firmware,Devices)
+- Serial number should be editable only when creating a new device 
+- Authentication and authorization
+- Audit logging
+- Pagination
+- Bulk device import
+- Docker support ??
+
 
 ## License
 

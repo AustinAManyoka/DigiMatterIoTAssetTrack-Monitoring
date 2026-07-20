@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IoT Asset Track</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <script src="js/api.js"></script>
+    <script src="js/layout.js"></script>
+    <script>
+        // Initialize dashboard page
+        async function initDashboardPage() {
+            initLayout('dashboard', 'Home');
+            const pageContent = document.getElementById('page-content');
+            
+            // Build dashboard content
+            pageContent.innerHTML = `
+                <div id="alerts-container"></div>
+                
+                <div style="text-align: center; padding: 2rem;">
+                    <h2 style="font-size: 2rem; margin: 0 0 0.5rem 0;">Welcome to IoT Asset Track</h2>
+                    <p style="font-size: 1.1rem; color: var(--text-muted); margin: 0 0 3rem 0;">
+                        Manage your IoT fleet with hierarchical groups, firmware versioning, and geolocation tracking
+                    </p>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin: 3rem 0;">
+                        <a href="devices.html" style="text-decoration: none; cursor: pointer;">
+                            <div style="background: var(--surface); padding: 2rem; border-radius: var(--radius); box-shadow: var(--shadow); transition: all 0.3s; border-left: 4px solid var(--primary);">
+                            
+                                <h3 style="margin: 0 0 0.5rem 0; color: var(--text);">Devices</h3>
+                                <p style="margin: 0 0 1.5rem 0; color: var(--text-muted); font-size: 0.9rem;">View, manage, and track all devices with map visualization</p>
+                                <span style="color: var(--primary); font-weight: 500;">Browse Devices →</span>
+                            </div>
+                        </a>
+                        
+                        <a href="groups.html" style="text-decoration: none; cursor: pointer;">
+                            <div style="background: var(--surface); padding: 2rem; border-radius: var(--radius); box-shadow: var(--shadow); transition: all 0.3s; border-left: 4px solid var(--accent);">
+                                
+                                <h3 style="margin: 0 0 0.5rem 0; color: var(--text);">Groups</h3>
+                                <p style="margin: 0 0 1.5rem 0; color: var(--text-muted); font-size: 0.9rem;">Organize devices into hierarchical groups</p>
+                                <span style="color: var(--accent); font-weight: 500;">Manage Groups →</span>
+                            </div>
+                        </a>
+                        
+                        <a href="firmware.html" style="text-decoration: none; cursor: pointer;">
+                            <div style="background: var(--surface); padding: 2rem; border-radius: var(--radius); box-shadow: var(--shadow); transition: all 0.3s; border-left: 4px solid #8b5cf6;">
+                                
+                                <h3 style="margin: 0 0 0.5rem 0; color: var(--text);">Firmware</h3>
+                                <p style="margin: 0 0 1.5rem 0; color: var(--text-muted); font-size: 0.9rem;">Track and manage firmware versions by device type</p>
+                                <span style="color: #8b5cf6; font-weight: 500;">Manage Firmware →</span>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div style="background: var(--surface); padding: 2rem; border-radius: var(--radius); margin: 3rem auto; max-width: 700px; box-shadow: var(--shadow);">
+                        <h3 style="margin-top: 0; color: var(--text); text-align: left;">Quick Start Guide</h3>
+                        <ul style="text-align: left; color: var(--text-muted); padding: 0 0 0 1.5rem;">
+                            <li><strong>Devices:</strong> View all devices on a map and in a table. Search by serial number, location, or device type.</li>
+                            <li><strong>Groups:</strong> Create hierarchical groups to organize your fleet. Groups can contain other groups.</li>
+                            <li><strong>Firmware:</strong> Manage firmware versions for each device type. Track which devices are using each version.</li>
+                            <li><strong>Search & Filter:</strong> Find devices quickly using multiple filter criteria.</li>
+                            <li><strong>Geolocation:</strong> Search devices within a specific radius to manage location-based deployments.</li>
+                        </ul>
+                    </div>
+
+                   
+                </div>
+            `;
+        }
+        
+        // Initialize when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initDashboardPage);
+        } else {
+            initDashboardPage();
+        }
+    </script>
+</body>
+</html>

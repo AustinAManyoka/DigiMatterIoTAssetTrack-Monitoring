@@ -1,8 +1,7 @@
 @IoTAssetTrack.Api_HostAddress = http://localhost:5197
 
-# ========================
+
 # DEVICE ENDPOINTS
-# ========================
 
 ### Get All Devices with Pagination
 GET {{IoTAssetTrack.Api_HostAddress}}/api/device?page=1&pageSize=10
