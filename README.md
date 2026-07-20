@@ -1,6 +1,6 @@
 # DigiMatter IoT Asset Track
 
-An IoT asset tracking and sensor monitoring solution developed as part of the **Digital Matter Graduate Software Engineer Practical Assessment**.
+An IoT asset tracking and sensor monitoring solution.
 
 The application demonstrates the management of IoT devices, versioned firmware, and hierarchical device groups through a RESTful ASP.NET Core backend and a responsive web frontend.
 
@@ -9,7 +9,7 @@ The application demonstrates the management of IoT devices, versioned firmware, 
 ## Live Demo
 
 **Application:**  
-> *(Add your Render URL here once deployed)*
+> *(Add  Render URL here once deployed)*
 
 **Source Code:**  
 > https://github.com/AustinAManyoka/DigiMatterIoTAssetTrack-Monitoring
@@ -127,7 +127,7 @@ The application follows an N-tier architecture to separate responsibilities betw
 
 ### Entity Relationship Diagram
 
-![Database Schema](docs/images/IoTAssetTrack_DigiMatter_databaseSchema.png)
+![Database Schema](database/IoTAssetTrack_DigiMatter_databaseSchema.png)
 
 ---
 
@@ -269,11 +269,11 @@ python -m http.server
 
 **Andani Austin Manyoka**
 
+Junior Software Developer
+
 University of Pretoria
 
 BScHons Geoinformatics
-
-Graduate Software Engineer Practical Assessment
 
 ---
 
