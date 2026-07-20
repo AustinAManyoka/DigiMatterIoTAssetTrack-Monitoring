@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Devices - IoT Asset Track</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Leaflet CSS for Map -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+</head>
+<body>
+    <div id="page-content-wrapper">
+        <div id="alerts-container"></div>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label">Total Devices</div>
+                <div class="stat-value" id="stat-total">-</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Active Devices</div>
+                <div class="stat-value" id="stat-active">-</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Groups</div>
+                <div class="stat-value" id="stat-groups">-</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Device Types</div>
+                <div class="stat-value" id="stat-types">-</div>
+            </div>
+        </div>
+
+        <div class="controls-bar">
+            <div class="search-box">
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    placeholder="Search by serial number, name, or coordinates..."
+                >
+                <button onclick="handleSearch()">Search</button>
+                <button onclick="resetFilters()" style="background: var(--text-muted);">Reset</button>
+            </div>
+            <div class="filter-group">
+                <select id="groupFilter" onchange="applyFilters()">
+                    <option value="">All Groups</option>
+                </select>
+                <select id="typeFilter" onchange="applyFilters()">
+                    <option value="">All Types</option>
+                </select>
+                <select id="statusFilter" onchange="applyFilters()">
+                    <option value="">All Status</option>
+                    <option value="active">Active</option>
+                    <option value="inactive">Inactive</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <button class="btn-primary" onclick="openDeviceModal()">+ New Device</button>
+            </div>
+            <div class="view-toggle">
+                <button class="active" onclick="switchView('table')">Table View</button>
+                <button onclick="switchView('map')">🗺️ Map</button>
+            </div>
+        </div>
+
+        <div id="mapView" style="display: none;">
+            <div class="map-container">
+                <div id="map"></div>
+                <div id="map-info" style="margin-top: 1rem; padding: 1rem; background: var(--bg); border-radius: var(--radius); display: none;">
+                    <h4 id="map-device-name"></h4>
+                    <p><strong>Serial:</strong> <span id="map-device-serial"></span></p>
+                    <p><strong>Type:</strong> <span id="map-device-type"></span></p>
+                    <p><strong>Firmware:</strong> <span id="map-device-firmware"></span></p>
+                    <p><strong>Group:</strong> <span id="map-device-group"></span></p>
+                    <p><strong>Coordinates:</strong> <span id="map-device-coords"></span></p>
+                    <button class="btn-primary" onclick="viewDeviceDetails()" style="margin-top: 1rem; width: 100%;">View Details</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="tableView">
+            <div class="table-container">
+                <div class="table-scroll">
+                    <table id="devicesTable">
+                        <thead>
+                            <tr>
+                                <th class="sortable" onclick="sortTable('name')">Name</th>
+                                <th class="sortable" onclick="sortTable('serialNumber')">Serial Number</th>
+                                <th>Type</th>
+                                <th>Firmware</th>
+                                <th>Group</th>
+                                <th>Location</th>
+                                <th class="sortable" onclick="sortTable('isActive')">Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="devicesTableBody">
+                            <tr><td colspan="8" class="empty-state">Loading devices...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Device Details Modal -->
+    <div class="modal" id="deviceDetailsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Device Details</h3>
+                <button class="modal-close" onclick="closeModal('deviceDetailsModal')">&times;</button>
+            </div>
+            <div id="deviceDetailsContent"></div>
+        </div>
+    </div>
+
+    <!-- Device Form Modal -->
+    <div class="modal" id="deviceFormModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="formTitle">Add New Device</h3>
+                <button class="modal-close" onclick="closeModal('deviceFormModal')">&times;</button>
+            </div>
+            <form id="deviceForm" onsubmit="submitDeviceForm(event)">
+                <div class="form-group">
+                    <label for="deviceName">Device Name *</label>
+                    <input type="text" id="deviceName" required>
+                </div>
+                <div class="form-group">
+                    <label for="serialNumber">Serial Number *</label>
+                    <input type="text" id="serialNumber" required>
+                </div>
+                <div class="form-group">
+                    <label for="deviceType">Device Type *</label>
+                    <select id="deviceType" required></select>
+                </div>
+                <div class="form-group">
+                    <label for="firmwareId">Firmware *</label>
+                    <select id="firmwareId" required></select>
+                </div>
+                <div class="form-group">
+                    <label for="groupId">Group</label>
+                    <select id="groupId"></select>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="form-group">
+                        <label for="latitude">Latitude *</label>
+                        <input type="number" id="latitude" step="0.0001" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="longitude">Longitude *</label>
+                        <input type="number" id="longitude" step="0.0001" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="isActive">
+                        <input type="checkbox" id="isActive" checked>
+                        Active
+                    </label>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="closeModal('deviceFormModal')">Cancel</button>
+                    <button type="submit" class="btn-primary">Save Device</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/layout.js"></script>
+    <script src="js/devices.js"></script>
+</body>
+</html>

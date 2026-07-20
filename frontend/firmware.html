@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firmware - IoT Asset Track</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div id="page-content-wrapper">
+        <div id="alerts-container"></div>
+        
+        <div class="controls-bar">
+            <div class="search-box">
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    placeholder="Search by version or device type..."
+                    onkeyup="debounce(() => handleSearch(), 300)"
+                >
+                <button onclick="handleSearch()">Search</button>
+                <button onclick="resetFilters()" style="background: var(--text-muted);">Reset</button>
+            </div>
+            <div class="filter-group">
+                <select id="typeFilter" onchange="applyFilters()">
+                    <option value="">All Device Types</option>
+                </select>
+            </div>
+            <div>
+                <button class="btn-primary" onclick="openFirmwareModal()">+ New Firmware</button>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <div class="table-scroll">
+                <table id="firmwareTable">
+                    <thead>
+                        <tr>
+                            <th>Device Type</th>
+                            <th>Version</th>
+                            <th>Release Date</th>
+                            <th>Devices Using</th>
+                            <th>Notes</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="firmwareTableBody">
+                        <tr><td colspan="6" class="empty-state">Loading firmware...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firmware Form Modal -->
+    <div class="modal" id="firmwareFormModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="formTitle">Add New Firmware</h3>
+                <button class="modal-close" onclick="closeModal('firmwareFormModal')">&times;</button>
+            </div>
+            <form id="firmwareForm" onsubmit="submitFirmwareForm(event)">
+                <div class="form-group">
+                    <label for="deviceTypeId">Device Type *</label>
+                    <select id="deviceTypeId" required></select>
+                </div>
+                <div class="form-group">
+                    <label for="firmwareVersion">Version *</label>
+                    <input type="text" id="firmwareVersion" placeholder="e.g. v1.2.3" required>
+                </div>
+                <div class="form-group">
+                    <label for="releaseDate">Release Date *</label>
+                    <input type="date" id="releaseDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="firmwareNotes">Notes</label>
+                    <textarea id="firmwareNotes" placeholder="Version notes, improvements, etc."></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="closeModal('firmwareFormModal')">Cancel</button>
+                    <button type="submit" class="btn-primary">Save Firmware</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/layout.js"></script>
+    <script src="js/firmware.js"></script>
+</body>
+</html>
