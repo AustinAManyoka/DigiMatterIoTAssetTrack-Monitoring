@@ -107,7 +107,7 @@ The backend follows a clean  architecture:
 
 ### Entity Relationship Diagram
 
-![Database Schema](docs/images/database-schema.png)
+![Database Schema](database/IoTAssetTrack_DigiMatter_databaseSchema.png)
 
 
 ### Prerequisites
