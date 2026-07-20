@@ -1,183 +1,284 @@
 # DigiMatter IoT Asset Track
 
-IoT asset tracking and sensor monitoring solution.
+An IoT asset tracking and sensor monitoring solution developed as part of the **Digital Matter Graduate Software Engineer Practical Assessment**.
 
-## Features
+The application demonstrates the management of IoT devices, versioned firmware, and hierarchical device groups through a RESTful ASP.NET Core backend and a responsive web frontend.
 
-- Device Groups — Create nested groups with parent-child relationships and cycle prevention
-- Firmware Management — Versioned firmware per device type with CRUD operations
-- Device Tracking — Paginated device queries with search, filtering, and sorting
+---
 
-## Tech Stack
+## Live Demo
+
+**Application:**  
+> *(Add your Render URL here once deployed)*
+
+**Source Code:**  
+> https://github.com/AustinAManyoka/DigiMatterIoTAssetTrack-Monitoring
+
+---
+
+# Features
+
+### Device Management
+- Create, view and update IoT devices
+- Assign devices to firmware versions
+- Assign devices to hierarchical groups
+- Store GPS coordinates
+- Active/Inactive device status
+- Search, filtering and pagination
+- Interactive map using Leaflet and OpenStreetMap
+
+### Firmware Management
+- CRUD operations
+- Versioned firmware per device type
+- Prevent duplicate firmware versions
+
+### Device Groups
+- Unlimited parent-child hierarchy
+- Cycle prevention
+- Group assignment for devices
+
+---
+
+# Technology Stack
+
+## Backend
 
 - ASP.NET Core 10 (.NET 10)
-- C# with N-tier architecture
+- C#
+- Entity Framework Core
+- Dapper
 - SQL Server
-- Entity Framework Core + Dapper
 
+## Frontend
 
-## Project Structure
+- HTML5
+- CSS3
+- JavaScript (ES6)
+- Bootstrap
+- Leaflet.js
+- OpenStreetMap
 
-```
+---
+
+# Project Structure
+
+```text
 DigiMatterIoTAssetTrack-Monitoring/
-├── backend/
-│   ├── IoTAssetTrack.sln
-│   ├── IoTAssetTrack.Api/           # Web API & static file hosting
-│   ├── IoTAssetTrack.Application/   # Services, DTOs, business logic
-│   ├── IoTAssetTrack.Domain/        # Entity models
-│   └── IoTAssetTrack.Infrastructure/# EF Core, repositories
-│   
+│
+├── README.md
+├── LICENSE
+│
+├── src/
+│   ├── backend/
+│   │   ├── IoTAssetTrack.sln
+│   │   ├── IoTAssetTrack.Api/
+│   │   ├── IoTAssetTrack.Application/
+│   │   ├── IoTAssetTrack.Domain/
+│   │   └── IoTAssetTrack.Infrastructure/
+│   │
+│   └── frontend/
+│       ├── index.html
+│       ├── devices.html
+│       ├── groups.html
+│       ├── firmware.html
+│       ├── css/
+│       ├── js/
+│       └── public/
+│           └── images/
+│
 ├── database/
-│   ├── CreateTables.sql
-│   └── SeedData.sql
+│   ├── 01_CreateDatabase.sql
+│   │ 
+│   └── 02_SeedData.sql 
+│
 └── docs/
-│   ├── images
-│   └──
-├── frontend/
-│    ├── index.html                 ✓ Dashboard landing page with feature cards
-│    ├── devices.html               ✓ Device management (table + map views)
-│    ├── groups.html                ✓ Hierarchical group management
-│    └── firmware.html              ✓ Firmware version tracking
-├── css/
-│   └── styles.css             ✓ Complete responsive design system
-└── js/
-    ├── api.js                 ✓ API utilities, formatters, helpers
-    ├── layout.js              ✓ Sidebar navigation, page shell
-    ├── devices.js             ✓ Device management logic 
-    ├── groups.js              ✓ Group management logic 
-    └── firmware.js            ✓ Firmware management logic 
+    └── images/
+        ├── IoTAssetTrack_Architecture.png
+        └── IoTAssetTrack_DigiMatter_databaseSchema.png
 ```
 
-## Getting Started
+---
 
-### Prerequisites
+# Architecture
 
-- [.NET 10 SDK](https://dotnet.microsoft.com/download)
-- [SQL Server](https://www.microsoft.com/sql-server) (LocalDB, Express, or full instance)
+The application follows an N-tier architecture to separate responsibilities between presentation, business logic, domain models and data access.
 
-### 1. Create the Database
+### Layers
 
-Run the SQL scripts against your SQL Server instance:
+- **API Layer** – Exposes REST endpoints and serves the frontend.
+- **Application Layer** – Implements business rules and validation.
+- **Domain Layer** – Contains entity models and domain logic.
+- **Infrastructure Layer** – Handles SQL Server access using Entity Framework Core and Dapper.
 
-```sql
--- In SQL Server Management Studio or sqlcmd:
-:r database/CreateTables.sql
-:r database/SeedData.sql
+### Architecture Diagram
+
+![Architecture](docs/images/IoTAssetTrack_Architecture.png)
+
+---
+
+# Database Schema
+
+| Table | Description |
+|--------|-------------|
+| **DeviceType** | Hardware profiles supported by the platform |
+| **Firmware** | Versioned firmware associated with a device type |
+| **DeviceGroup** | Hierarchical parent-child device groups |
+| **Device** | Individual IoT devices with firmware, location and group assignment |
+
+### Entity Relationship Diagram
+
+![Database Schema](docs/images/IoTAssetTrack_DigiMatter_databaseSchema.png)
+
+---
+
+# Frontend Pages
+
+| Page | Description |
+|------|-------------|
+| Home | Landing page and navigation |
+| Devices | Device management with table and map views |
+| Groups | Hierarchical group management |
+| Firmware | Firmware version management |
+
+---
+![HomePage](docs/images/HomePage.png)
+
+# Getting Started
+
+## Prerequisites
+
+- .NET 10 SDK
+- SQL Server (Express, LocalDB or Developer Edition)
+- Visual Studio 2022 (recommended)
+
+---
+
+## Clone the Repository
+
+```bash
+git clone https://github.com/AustinAManyoka/DigiMatterIoTAssetTrack-Monitoring.git
+
+cd DigiMatterIoTAssetTrack-Monitoring
 ```
 
-Or execute `CreateTables.sql` and `SeedData.sql` manually in order.
+---
 
-### 2. Configure Connection String
+## Database Setup
 
-Update the connection string in `backend/IoTAssetTrack.Api/appsettings.json` if needed:
+Execute the SQL scripts in the following order:
+
+```text
+database/
+    01_CreateDatabase.sql
+    02_SeedData.sql
+```
+
+These scripts will:
+
+- Create the database
+- Create all tables
+- Configure relationships and constraints
+- Insert sample data
+
+---
+
+## Configure the Connection String
+
+Open:
+
+```text
+src/backend/IoTAssetTrack.Api/appsettings.json
+```
+
+Update the connection string if necessary.
 
 ```json
 {
   "ConnectionStrings": {
-    "DefaultConnection": "Server=localhost;Database=IoTAssetTracker_db;Trusted_Connection=True;TrustServerCertificate=True;"
+    "DefaultConnection": "Server=localhost;Database=DigiMatterAssetTrack_db;Trusted_Connection=True;TrustServerCertificate=True;"
   }
 }
 ```
 
-### 3. Run the Application
+---
+
+## Run the Backend
 
 ```bash
-cd backend
+cd src/backend
+
+dotnet restore
+
 dotnet run --project IoTAssetTrack.Api
 ```
-## Architecture
 
-The backend follows a clean  architecture:
+The API will start locally.
 
-1. API Layer — Controllers handle HTTP requests and return JSON
-2. Application Layer — Services enforce business rules (hierarchy validation, uniqueness checks)
-3. Infrastructure Layer — EF Core and Dapper repositories execute database operations
-4. Domain Layer — Entity models representing the database schema
+Example:
 
-![Architecture](docs/images/IoTAssetTrack_Architecture.png)
+```
+https://localhost:5197
+```
 
-## Database Schema
+---
 
-| Table | Description |
-|-------|-------------|
-| `DeviceType` | Hardware profiles (Griffin Air, Yabby3 LoRaWAN, etc.) |
-| `Firmware` | Versioned firmware per device type |
-| `DeviceGroup` | Hierarchical groups (self-referencing) |
-| `Device` | Individual IoT devices with location and firmware assignment |
+## Run the Frontend
 
-### Entity Relationship Diagram
+If serving the frontend separately:
 
-![Database Schema](database/IoTAssetTrack_DigiMatter_databaseSchema.png)
+```bash
+cd src/frontend
+```
 
+Open `index.html` using:
 
-### Prerequisites
+- Visual Studio Code Live Server
 
-- .NET SDK
-- SQL Server
-- Visual Studio 2022
+or
 
-### Steps
+```bash
+python -m http.server
+```
 
-1. Run `01_CreateDatabase.sql`
-2. Run `02_CreateTables.sql`
-3. Run `03_SeedData.sql`
-4. Update the SQL Server connection string
-5. Run the application
+---
 
-## Features
-
-### Device Management
-
-- Create, update and view devices
-- Assign firmware
-- Assign groups
-- Device location management
-- Active/inactive status
-- Map visualisation using Leaflet
-
-### Firmware Management
-
-- Create firmware versions
-- Update firmware
-- Filter by device type
-- Prevent duplicate firmware versions
-
-### Group Management
-
-- Hierarchical parent/child groups
-- Recursive tree view
-- Assign devices to groups
-- Parent group validation
-
-The frontend consists of four primary pages.
-
-| Page | Purpose |
-|------|---------|
-| Dashboard | Overview and navigation |
-| Devices | Manage IoT devices and map |
-| Groups | Manage hierarchical groups |
-| Firmware | Manage firmware versions |
-
-
-## Assumptions
+# Assumptions
 
 - A device belongs to one firmware version.
 - Firmware belongs to a single device type.
-- Groups support unlimited nesting.
+- Device groups support unlimited hierarchy levels.
 - Devices may optionally belong to a group.
+- GPS coordinates use the WGS84 coordinate system.
 
-## Future Improvements
+---
 
-- Unit tests
-- Soft deletes(Firmware,Devices)
-- Serial number should be editable only when creating a new device 
-- Authentication and authorization
+# Future Improvements
+
+
+- Unit and integration testing
+- Soft delete support
 - Audit logging
-- Pagination
 - Bulk device import
-- Docker support ??
+- Docker support
+- SignalR for real-time device updates
 
 
-## License
+---
 
-See [LICENSE](LICENSE).
+# Author
+
+**Andani Austin Manyoka**
+
+University of Pretoria
+
+BScHons Geoinformatics
+
+Graduate Software Engineer Practical Assessment
+
+---
+
+# License
+
+This project is provided for assessment purposes.
+
+See the [LICENSE](LICENSE) file for details.
