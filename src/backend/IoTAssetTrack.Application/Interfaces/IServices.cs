@@ -29,5 +29,7 @@ public interface IDeviceService
     Task<DeviceFlatDto> CreateDeviceAsync(DeviceCreateDto dto);
     Task<DeviceFlatDto> UpdateDeviceAsync(int deviceId, DeviceUpdateDto dto);
     Task<bool> AssignDeviceToGroupAsync(int deviceId, int? groupId);
+    Task DeviceDeleteAsync(int deviceId);
     Task<IEnumerable<DeviceFlatDto>> SearchDevicesByLocationAsync(GeoLocationSearchDto searchDto);
+    Task DeleteDeviceAsync(int id);
 }

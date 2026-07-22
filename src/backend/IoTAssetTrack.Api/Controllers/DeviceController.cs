@@ -2,6 +2,7 @@ using IoTAssetTrack.Application.DTOs;
 using IoTAssetTrack.Application.Exceptions;
 using IoTAssetTrack.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using System.Reflection.Metadata.Ecma335;
 
 namespace IoTAssetTrack.Api.Controllers;
 
@@ -58,6 +59,24 @@ public class DeviceController(IDeviceService deviceService) : ControllerBase
         }
     }
 
+    [HttpDelete("id:int")]
+    public async Task<IActionResult> DeleteDevice(int id)
+    {
+        try
+        {
+            await _deviceService.DeleteDeviceAsync(id);
+            return NoContent();
+        }
+        catch (BusinessException ex)
+        {
+            return BadRequest(new {message = ex.Message});
+        }
+
+
+    }
+
+
+
     [HttpPatch("{id:int}/group")]
     public async Task<IActionResult> AssignDeviceToGroup(int id, [FromBody] DeviceGroupAssignmentDto groupDto)
     {
@@ -90,4 +109,6 @@ public class DeviceController(IDeviceService deviceService) : ControllerBase
             return BadRequest(new { message = ex.Message });
         }
     }
+
 }
+

@@ -30,7 +30,10 @@ public interface IDeviceRepository
     Task<DeviceFlatDto?> GetByIdAsync(int deviceId);
     Task<DeviceFlatDto> CreateAsync(DeviceCreateDto dto);
     Task<bool> UpdateAsync(int deviceId, DeviceUpdateDto dto);
+    Task<bool> DeleteAsync(int deviceId,DeviceDeleteDto dto);
     Task<bool> UpdateDeviceGroupAsync(int deviceId, int? groupId);
     Task<IEnumerable<DeviceFlatDto>> GetDevicesByLocationAsync(decimal latitude, decimal longitude, double radiusKm, bool? isActive = null, int? deviceTypeId = null);
     Task<bool> ExistsAsync(int deviceId);
+    Task DeleteAsync(DeviceFlatDto device);
+    Task<bool> DeleteAsync(int id);
 }

@@ -14,10 +14,17 @@ public class DeviceService(
     private readonly IFirmwareRepository _firmwareRepository = firmwareRepository;
     private readonly IGroupRepository _groupRepository = groupRepository;
 
+    private const int MaxPageSize = 100;
+    private const int DefaultPageSize = 25;
+
     public Task<PagedResponse<DeviceFlatDto>> GetDevicesAsync(DeviceQueryParameters parameters)
     {
-        if (parameters.Page < 1) parameters.Page = 1;
-        if (parameters.PageSize < 1 || parameters.PageSize > 100) parameters.PageSize = 25;
+       
+        if(parameters.PageSize<1)
+             parameters.PageSize = DefaultPageSize;
+        else if (parameters.PageSize > MaxPageSize)
+            parameters.PageSize = MaxPageSize;
+
 
         var allowedSortColumns = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
         {
@@ -98,6 +105,17 @@ public class DeviceService(
         return await _deviceRepository.UpdateDeviceGroupAsync(deviceId, groupId);
     }
 
+    public async Task DeleteDeviceAsync(int id)
+    {
+        var device = await _deviceRepository.GetByIdAsync(id) ?? throw new BusinessException("Device not found");
+        await _deviceRepository.DeleteAsync(device);
+
+        var deleted = await _deviceRepository.DeleteAsync(id);
+        if (!deleted)
+            throw new BusinessException("Failed to delete device");
+
+    }
+
     public async Task<IEnumerable<DeviceFlatDto>> SearchDevicesByLocationAsync(GeoLocationSearchDto searchDto)
     {
         if (searchDto.Latitude < -90 || searchDto.Latitude > 90)
@@ -115,5 +133,10 @@ public class DeviceService(
             searchDto.RadiusKm,
             searchDto.IsActive,
             searchDto.DeviceTypeId);
+    }
+
+    public Task DeviceDeleteAsync(int deviceId)
+    {
+        throw new NotImplementedException();
     }
 }
