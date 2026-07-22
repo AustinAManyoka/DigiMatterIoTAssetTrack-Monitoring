@@ -152,9 +152,14 @@ async function countDevicesPerFirmware() {
         const response = await apiRequest('/device?pageSize=10000');
         const devices = response.data || [];
 
+        deviceCountMap = {};
+
         allFirmware.forEach(firmware => {
-            const count = devices.filter(d => d.FirmwareId === firmware.FirmwareId).length;
-            deviceCountMap[firmware.FirmwareId] = count;
+            const count = devices.filter(device =>
+                device.firmwareVersion === firmware.version
+            ).length;
+
+            deviceCountMap[firmware.firmwareId] = count;
         });
 
         renderTable();
@@ -179,14 +184,14 @@ function renderTable() {
             <td>${formatDate(fw.releaseDate)}</td>
             <td>
                 <span class="device-count">
-                     ${deviceCountMap[fw.FirmwareId] || 0}
+                     ${deviceCountMap[fw.firmwareId] || 0}
                 </span>
             </td>
             <td>${fw.notes ? escapeHtml(fw.notes) : '-'}</td>
             <td>
                 <div class="device-actions">
-                    <button class="btn-icon btn-edit" onclick="editFirmware(${fw.FirmwareId})" title="Edit">Edit</button>
-                    <button class="btn-icon btn-delete" onclick="deleteFirmware(${fw.FirmwareId})" title="Delete">Delete</button>
+                    <button class="btn-icon btn-edit" onclick="editFirmware(${fw.firmwareId})" title="Edit">Edit</button>
+                    <button class="btn-icon btn-delete" onclick="deleteFirmware(${fw.firmwareId})" title="Delete">Delete</button>
                 </div>
             </td>
         </tr>
@@ -250,12 +255,12 @@ function openFirmwareModal() {
 }
 
 // Edit firmware
-async function editFirmware(FirmwareId) {
+async function editFirmware(firmwareId) {
     try {
-        const fw = allFirmware.find(f => f.FirmwareId === FirmwareId);
+        const fw = allFirmware.find(f => f.firmwareId === firmwareId);
         if (!fw) return;
 
-        currentEditingFirmwareId = FirmwareId;
+        currentEditingFirmwareId = firmwareId;
         document.getElementById('formTitle').textContent = 'Edit Firmware';
         document.getElementById('deviceTypeId').value = fw.deviceTypeId;
         document.getElementById('firmwareVersion').value = fw.version;
@@ -306,9 +311,9 @@ async function submitFirmwareForm(event) {
 }
 
 // Delete firmware
-async function deleteFirmware(FirmwareId) {
-    const fw = allFirmware.find(f => f.FirmwareId === FirmwareId);
-    const deviceCount = deviceCountMap[FirmwareId] || 0;
+async function deleteFirmware(firmwareId) {
+    const fw = allFirmware.find(f => f.firmwareId === firmwareId);
+    const deviceCount = deviceCountMap[firmwareId] || 0;
 
     if (deviceCount > 0) {
         showAlert('alerts-container', `Cannot delete firmware in use by ${deviceCount} device(s)`, 'error');
@@ -319,7 +324,7 @@ async function deleteFirmware(FirmwareId) {
 
     try {
         // Note: New delete endpoint for Firmware
-        await apiRequest(`/firmware/${FirmwareId}`, { method:'DELETE'});
+        await apiRequest(`/firmware/${firmwareId}`, { method:'DELETE'});
         showAlert('alerts-container','Firmware deleted successfully!','success');
         await loadFirmware();
     } catch (error) {
