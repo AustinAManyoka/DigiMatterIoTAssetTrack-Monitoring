@@ -141,11 +141,11 @@ The application follows an N-tier architecture to separate responsibilities betw
 | Firmware | Firmware version management |
 
 ---
-##Home Page
+# Home Page
 ![HomePage](docs/images/HomePage.png)
 
 
-##Groups Page
+# Groups Page
 ![GroupsPage](docs/images/GroupsPage.png)
 
 # Getting Started
