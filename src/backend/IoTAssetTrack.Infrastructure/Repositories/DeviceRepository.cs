@@ -190,9 +190,30 @@ public class DeviceRepository(IConfiguration configuration, AppDbContext context
         });
     }
 
+    public async Task DeleteAsync(DeviceDeleteDto device)
+    {
+        device.IsActive = false;
+        await _context.SaveChangesAsync();
+    }
+
     public async Task<bool> ExistsAsync(int deviceId)
     {
         return await _context.Devices.AnyAsync(d => d.DeviceId == deviceId);
+    }
+
+    Task<bool> IDeviceRepository.DeleteAsync(int deviceId, DeviceDeleteDto dto)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task DeleteAsync(DeviceFlatDto device)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<bool> DeleteAsync(int id)
+    {
+        throw new NotImplementedException();
     }
 }
 

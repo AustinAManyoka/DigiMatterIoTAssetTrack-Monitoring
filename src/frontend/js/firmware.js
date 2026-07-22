@@ -318,8 +318,10 @@ async function deleteFirmware(FirmwareId) {
     if (!confirm('Are you sure you want to delete this firmware version?')) return;
 
     try {
-        // Note: Backend may not have delete endpoint yet
-        showAlert('alerts-container', 'Firmware deletion not yet implemented in backend', 'info');
+        // Note: New delete endpoint for Firmware
+        await apiRequest(`/firmware/${FirmwareId}`, { method:'DELETE'});
+        showAlert('alerts-container','Firmware deleted successfully!','success');
+        await loadFirmware();
     } catch (error) {
         showAlert('alerts-container', `Failed to delete firmware: ${error.message}`, 'error');
     }

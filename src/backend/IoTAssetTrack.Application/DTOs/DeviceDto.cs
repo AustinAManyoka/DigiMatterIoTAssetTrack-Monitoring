@@ -44,6 +44,15 @@ public class DeviceUpdateDto
     public decimal? Longitude { get; set; }
     public bool? IsActive { get; set; }
     public int? FirmwareId { get; set; }
+
+    public int? GroupId { get; set; }
+}
+
+public class DeviceDeleteDto
+{
+    public int ? DeviceId { get; set; }
+    public bool IsActive { get; set; } = false;
+  
 }
 
 public class DeviceGroupAssignmentDto

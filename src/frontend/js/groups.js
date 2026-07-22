@@ -319,8 +319,12 @@ async function deleteGroup(groupId) {
     if (!confirm('Are you sure you want to delete this group? Child groups will remain but be unassigned.')) return;
 
     try {
-        // Note: Backend does not have delete endpoint, so this is a placeholder
-        showAlert('alerts-container', 'Group deletion not yet implemented in backend', 'info');
+        // Note: delete endpoint, 
+        await apiRequest(`/group/${groupId}`, { method: 'DELETE' });
+        showAlert('alerts-container', 'Group deleted successfully!', 'success');
+        selectedGroupId = null;
+        document.getElementById('groupContent').innerHTML = '<div class="empty-state"><p>Select a group to view details</p></div>';
+        await loadGroups();
     } catch (error) {
         showAlert('alerts-container', `Failed to delete group: ${error.message}`, 'error');
     }

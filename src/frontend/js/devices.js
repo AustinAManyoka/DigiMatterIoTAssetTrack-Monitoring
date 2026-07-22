@@ -198,7 +198,7 @@ async function loadStatistics() {
         ]);
 
         //device count
-        const totalDevices = devices.totalCount || 0;
+        const totalDevices = devices.totalRecords || devices.data?.length || 0;
         const activeDevices = devices.data?.filter(d => d.isActive).length || 0;
 
         document.getElementById('stat-total').textContent = totalDevices;
@@ -606,7 +606,7 @@ function viewDeviceDetails(device = selectedDevice) {
                     <dt style="color: var(--text-muted); font-size: 0.9rem;">Status</dt>
                     <dd>
                         <span class="status-badge ${device.isActive ? 'status-active' : 'status-inactive'}">
-                            ${device.isActive ? '✓ Active' : '✗ Inactive'}
+                            ${device.isActive ? 'Active' : 'Inactive'}
                         </span>
                     </dd>
                 </div>
@@ -643,7 +643,7 @@ function viewDeviceDetails(device = selectedDevice) {
         </div>
 
         <div style="margin-top: 2rem; display: flex; gap: 1rem;">
-            <button class="btn-primary" onclick="editDevice(${device.deviceId})" style="flex: 1;">✏️ Edit</button>
+            <button class="btn-primary" onclick="editDevice(${device.deviceId})" style="flex: 1;">Edit</button>
             <button class="btn-secondary" onclick="closeModal('deviceDetailsModal')" style="flex: 1;">Close</button>
         </div>
     `;
@@ -742,8 +742,11 @@ async function deleteDevice(deviceId) {
     if (!confirm('Are you sure you want to delete this device?')) return;
 
     try {
-        // Note: I Need to create backend endpoint for device deletion, so this is a placeholder
-        showAlert('alerts-container', 'Device deletion not yet implemented in backend', 'info');
+        // Note: device deletion endpoint
+        await apiRequest(`/device/${deviceId}`,{method: 'DELETE'});
+        showAlert('alerts-container','Device deleted successfully!','success');
+        await loadDevices();
+        await loadStatistics();
     } catch (error) {
         showAlert('alerts-container', `Failed to delete device: ${error.message}`, 'error');
     }

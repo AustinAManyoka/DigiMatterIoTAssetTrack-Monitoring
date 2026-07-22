@@ -141,7 +141,12 @@ The application follows an N-tier architecture to separate responsibilities betw
 | Firmware | Firmware version management |
 
 ---
+##Home Page
 ![HomePage](docs/images/HomePage.png)
+
+
+##Groups Page
+![GroupsPage](docs/images/GroupsPage.png)
 
 # Getting Started
 
