@@ -144,9 +144,14 @@ The application follows an N-tier architecture to separate responsibilities betw
 # Home Page
 ![HomePage](docs/images/HomePage.png)
 
+# Devices Page
+![DevicesPage](docs/images/DevicesPage.png)
 
 # Groups Page
 ![GroupsPage](docs/images/GroupsPage.png)
+
+# Firmware Page
+![FirmwarePage](docs/images/FirmwarePage.png)
 
 # Getting Started
 
@@ -263,7 +268,6 @@ python -m http.server
 - Unit and integration testing
 - Soft delete support
 - Audit logging
-- Bulk device import
 - Docker support
 - SignalR for real-time device updates
 
