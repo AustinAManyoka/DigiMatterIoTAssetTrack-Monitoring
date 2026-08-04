@@ -227,7 +227,7 @@ The API will start locally.
 Example:
 
 ```
-https://localhost:5197
+http://localhost:5197
 ```
 
 ---

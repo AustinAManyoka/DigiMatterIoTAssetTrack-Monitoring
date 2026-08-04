@@ -1,8 +1,8 @@
 const NAV_ITEMS = [
-    { page: 'dashboard', href: 'index.html', icon: '<img width="32" height="32" src="https://img.icons8.com/3d-fluency/94/smart-home.png" alt="smart-home"/>', label: 'Home' },
-    { page: 'devices', href: 'devices.html', icon: '<img width="32" height="32" src="https://img.icons8.com/liquid-glass-color/32/infrared-beam-sending.png" alt="infrared-beam-sending"/>', label: 'Devices' },
-    { page: 'groups', href: 'groups.html', icon: '<img width="32" height="32" src="https://img.icons8.com/liquid-glass/48/stacked-organizational-chart.png" alt="stacked-organizational-chart"/>', label: 'Groups' },
-    { page: 'firmware', href: 'firmware.html', icon: '<img width="32" height="32" src="https://img.icons8.com/3d-fluency/94/raspberry-pi-zero.png" alt="raspberry-pi-zero"/>', label: 'Firmware' }
+    { page: 'dashboard', href: 'index.html', icon: '<img width="32" height="32" src="public/images/Home-icons8.png" alt="smart-home"/>', label: 'Home' },
+    { page: 'devices', href: 'devices.html', icon: '<img width="32" height="32" src="public/images/Devices-icons8.png" alt="infrared-beam-sending"/>', label: 'Devices' },
+    { page: 'groups', href: 'groups.html', icon: '<img width="32" height="32" src="public/images/Groups-icons8.png" alt="stacked-organizational-chart"/>', label: 'Groups' },
+    { page: 'firmware', href: 'firmware.html', icon: '<img width="32" height="32" src="public/images/Firmware-icons8.png" alt="raspberry-pi-zero"/>', label: 'Firmware' }
 ];
 
 function initLayout(activePage, pageTitle) {
@@ -11,7 +11,7 @@ function initLayout(activePage, pageTitle) {
         <div class="app-shell">
             <aside class="sidebar" id="sidebar">
                 <div class="sidebar-brand">
-                <img width="32" height="32" src="https://img.icons8.com/liquid-glass-color/32/radio-waves.png" alt="radio-waves"/>
+                <img width="32" height="32" src="public/images/Radio-Waves-icons8.png" alt="radio-waves"/>
                 <div class="brand-text">
                  <h1>DigiMatter</h1>
                  <p>IoT Asset Tracking</p>
